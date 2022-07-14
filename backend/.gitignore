@@ -1,16 +1,5 @@
-### Dependency directories ###
-node_modules/
-
-### Optional npm cache directory ###
-.npm
-
-### dotenv environment variables file ###
-.env
-
-### Spring boot ###
 HELP.md
 target/
-out
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
