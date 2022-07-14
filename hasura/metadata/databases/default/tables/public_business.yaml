@@ -1,0 +1,25 @@
+table:
+  schema: public
+  name: business
+object_relationships:
+  - name: business_type
+    using:
+      foreign_key_constraint_on: type
+  - name: user
+    using:
+      foreign_key_constraint_on: owner_id
+array_relationships:
+  - name: events
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          schema: public
+          name: event
+  - name: memberships
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          schema: public
+          name: membership
