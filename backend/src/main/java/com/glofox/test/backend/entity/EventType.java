@@ -1,5 +1,7 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -11,6 +13,7 @@ public class EventType {
     @Column(name = "name", nullable = false, length = -1)
     private String name;
     @OneToMany(mappedBy = "type")
+    @JsonIgnoreProperties("type")
     private Collection<Event> events;
 
     public String getName() {

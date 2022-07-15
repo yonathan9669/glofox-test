@@ -1,7 +1,8 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import java.time.ZonedDateTime;
 import java.util.Collection;
 
 @Entity
@@ -16,20 +17,25 @@ public class Event {
     @Basic
     @Column(name = "description", nullable = false, length = -1)
     private String description;
-    @Basic
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime createdAt;
-    @Basic
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime updatedAt;
     @OneToMany(mappedBy = "event")
+    @JsonIgnoreProperties("event")
     private Collection<Activity> activities;
     @ManyToOne
     @JoinColumn(name = "business_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties("events")
     private Business business;
     @ManyToOne
     @JoinColumn(name = "type", referencedColumnName = "name", nullable = false)
+    @JsonIgnoreProperties("events")
     private EventType type;
+
+    public Event() {
+
+    }
+
+    Event(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -71,22 +77,6 @@ public class Event {
         this.type = eventType;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,9 +93,6 @@ public class Event {
         String eventType = event.getType();
         if (type != null ? !type.equals(eventType) : eventType != null) return false;
 
-        if (createdAt != null ? !createdAt.equals(event.createdAt) : event.createdAt != null) return false;
-        if (updatedAt != null ? !updatedAt.equals(event.updatedAt) : event.updatedAt != null) return false;
-
         return true;
     }
 
@@ -117,8 +104,6 @@ public class Event {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         String type = this.getType();
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
 

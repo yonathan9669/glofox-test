@@ -1,7 +1,8 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import java.time.ZonedDateTime;
 import java.util.Collection;
 
 @Entity
@@ -16,21 +17,19 @@ public class Business {
     @Basic
     @Column(name = "address", nullable = true, length = -1)
     private String address;
-    @Basic
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime createdAt;
-    @Basic
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime updatedAt;
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties("businesses")
     private User owner;
     @ManyToOne
     @JoinColumn(name = "type", referencedColumnName = "name", nullable = false)
+    @JsonIgnoreProperties("businesses")
     private BusinessType type;
     @OneToMany(mappedBy = "business")
+    @JsonIgnoreProperties("business")
     private Collection<Event> events;
     @OneToMany(mappedBy = "business")
+    @JsonIgnoreProperties("business")
     private Collection<Membership> memberships;
 
     public int getId() {
@@ -69,20 +68,8 @@ public class Business {
         return type.getName();
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setType(BusinessType businessType) {
+        this.type = businessType;
     }
 
     @Override
@@ -101,9 +88,6 @@ public class Business {
         String businessType = business.getType();
         if (type != null ? !type.equals(businessType) : businessType != null) return false;
 
-        if (createdAt != null ? !createdAt.equals(business.createdAt) : business.createdAt != null) return false;
-        if (updatedAt != null ? !updatedAt.equals(business.updatedAt) : business.updatedAt != null) return false;
-
         return true;
     }
 
@@ -115,9 +99,12 @@ public class Business {
         result = 31 * result + this.getOwnerId();
         String type = this.getType();
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return name + " | " + getType();
     }
 
     public User getOwner() {
@@ -126,10 +113,6 @@ public class Business {
 
     public void setOwner(User user) {
         this.owner = user;
-    }
-
-    public void setType(BusinessType businessType) {
-        this.type = businessType;
     }
 
     public Collection<Event> getEvents() {

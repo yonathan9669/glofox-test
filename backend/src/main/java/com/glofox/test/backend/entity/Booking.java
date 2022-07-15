@@ -1,7 +1,8 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import java.time.ZonedDateTime;
 import java.sql.Timestamp;
 
 @Entity
@@ -16,17 +17,13 @@ public class Booking {
     @Basic
     @Column(name = "attended", nullable = true)
     private Boolean attended;
-    @Basic
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime createdAt;
-    @Basic
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime updatedAt;
     @ManyToOne
     @JoinColumn(name = "member_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties("bookings")
     private User member;
     @ManyToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties("bookings")
     private Activity activity;
 
     public int getId() {
@@ -65,22 +62,6 @@ public class Booking {
         this.attended = attended;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,8 +74,6 @@ public class Booking {
         if (this.getActivityId() != booking.getActivityId()) return false;
         if (date != null ? !date.equals(booking.date) : booking.date != null) return false;
         if (attended != null ? !attended.equals(booking.attended) : booking.attended != null) return false;
-        if (createdAt != null ? !createdAt.equals(booking.createdAt) : booking.createdAt != null) return false;
-        if (updatedAt != null ? !updatedAt.equals(booking.updatedAt) : booking.updatedAt != null) return false;
 
         return true;
     }
@@ -106,8 +85,6 @@ public class Booking {
         result = 31 * result + this.getActivityId();
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (attended != null ? attended.hashCode() : 0);
-        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
 

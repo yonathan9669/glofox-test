@@ -1,7 +1,8 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import java.time.ZonedDateTime;
 import java.util.Collection;
 
 @Entity
@@ -19,20 +20,26 @@ public class User {
     @Basic
     @Column(name = "phone", nullable = true, length = -1)
     private String phone;
-    @Basic
-    @Column(name = "created_at", columnDefinition= "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime createdAt;
-    @Basic
-    @Column(name = "updated_at", columnDefinition= "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime updatedAt;
     @OneToMany(mappedBy = "responsible")
+    @JsonIgnoreProperties("responsible")
     private Collection<Activity> activities;
     @OneToMany(mappedBy = "member")
+    @JsonIgnoreProperties("member")
     private Collection<Booking> bookings;
     @OneToMany(mappedBy = "owner")
+    @JsonIgnoreProperties("owner")
     private Collection<Business> businesses;
     @OneToMany(mappedBy = "member")
+    @JsonIgnoreProperties("member")
     private Collection<Membership> memberships;
+
+    public User() {
+
+    }
+
+    User(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -70,22 +77,6 @@ public class User {
         this.phone = phone;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,11 +87,7 @@ public class User {
         if (id != user.id) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
-        if (createdAt != null ? !createdAt.equals(user.createdAt) : user.createdAt != null) return false;
-        if (updatedAt != null ? !updatedAt.equals(user.updatedAt) : user.updatedAt != null) return false;
-
-        return true;
+        return phone != null ? phone.equals(user.phone) : user.phone == null;
     }
 
     @Override
@@ -109,8 +96,6 @@ public class User {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
 

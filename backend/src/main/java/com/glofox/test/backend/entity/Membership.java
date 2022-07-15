@@ -1,5 +1,7 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
@@ -12,17 +14,13 @@ public class Membership {
     @Basic
     @Column(name = "active", nullable = false)
     private boolean active;
-    @Basic
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime createdAt;
-    @Basic
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime updatedAt;
     @ManyToOne
     @JoinColumn(name = "member_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties("memberships")
     private User member;
     @ManyToOne
     @JoinColumn(name = "business_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties("memberships")
     private Business business;
 
     public Boolean getActive() {
@@ -61,22 +59,6 @@ public class Membership {
         this.active = active;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,8 +70,6 @@ public class Membership {
         if (this.getMemberId() != that.getMemberId()) return false;
         if (this.getBusinessId() != that.getBusinessId()) return false;
         if (active != that.active) return false;
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
-        if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
 
         return true;
     }
@@ -100,8 +80,6 @@ public class Membership {
         result = 31 * result + this.getMemberId();
         result = 31 * result + this.getBusinessId();
         result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
 

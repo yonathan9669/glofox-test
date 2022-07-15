@@ -1,5 +1,7 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -11,7 +13,16 @@ public class ActivityType {
     @Column(name = "name", nullable = false, length = -1)
     private String name;
     @OneToMany(mappedBy = "type")
+    @JsonIgnoreProperties("type")
     private Collection<Activity> activities;
+
+    public ActivityType() {
+
+    }
+
+    ActivityType(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

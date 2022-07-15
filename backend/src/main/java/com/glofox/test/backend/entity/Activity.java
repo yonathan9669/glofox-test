@@ -1,20 +1,17 @@
 package com.glofox.test.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vladmihalcea.hibernate.type.range.PostgreSQLRangeType;
 import com.vladmihalcea.hibernate.type.range.Range;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.OffsetTime;
 import java.util.Collection;
 
 @Entity
-@TypeDef(
-        typeClass = PostgreSQLRangeType.class,
-        defaultForType = Range.class
-)
+@TypeDef(typeClass = PostgreSQLRangeType.class, defaultForType = Range.class)
 public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -34,26 +31,24 @@ public class Activity {
     private Range<LocalDate> dateRange;
     @Basic
     @Column(name = "start_at", nullable = false, columnDefinition = "TIME WITH TIME ZONE")
-    private LocalTime startAt;
+    private OffsetTime startAt;
     @Basic
     @Column(name = "end_at", nullable = false, columnDefinition = "TIME WITH TIME ZONE")
-    private LocalTime endAt;
-    @Basic
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime createdAt;
-    @Basic
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime updatedAt;
+    private OffsetTime endAt;
     @ManyToOne
     @JoinColumn(name = "event_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties("activities")
     private Event event;
     @ManyToOne
     @JoinColumn(name = "responsible_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("activities")
     private User responsible;
     @ManyToOne
     @JoinColumn(name = "type", referencedColumnName = "name", nullable = false)
+    @JsonIgnoreProperties("activities")
     private ActivityType type;
     @OneToMany(mappedBy = "activity")
+    @JsonIgnoreProperties("activity")
     private Collection<Booking> bookings;
 
     public int getId() {
@@ -108,23 +103,36 @@ public class Activity {
         this.dateRange = dateRange;
     }
 
-    public LocalTime getStartAt() {
+    public void setDateRange(String dateRange) {
+        this.dateRange = Range.localDateRange(dateRange);
+    }
+
+    public OffsetTime getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(LocalTime startAt) {
+    public void setStartAt(OffsetTime startAt) {
         this.startAt = startAt;
     }
 
-    public LocalTime getEndAt() {
+    public void setStartAt(String startAt) {
+        this.startAt = OffsetTime.parse(startAt);
+    }
+
+    public OffsetTime getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(LocalTime endAt) {
+    public void setEndAt(OffsetTime endAt) {
         this.endAt = endAt;
     }
 
+    public void setEndAt(String endAt) {
+        this.endAt = OffsetTime.parse(endAt);
+    }
+
     public Integer getResponsibleId() {
+        if (this.responsible == null) return null;
         return this.responsible.getId();
     }
 
@@ -136,20 +144,8 @@ public class Activity {
         this.type = activityType;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setType(String name) {
+        this.type = new ActivityType(name);
     }
 
     @Override
@@ -178,9 +174,6 @@ public class Activity {
         String activityType = activity.getType();
         if (type != null ? !type.equals(activityType) : activityType != null) return false;
 
-        if (createdAt != null ? !createdAt.equals(activity.createdAt) : activity.createdAt != null) return false;
-        if (updatedAt != null ? !updatedAt.equals(activity.updatedAt) : activity.updatedAt != null) return false;
-
         return true;
     }
 
@@ -198,8 +191,6 @@ public class Activity {
         result = 31 * result + (responsibleId != null ? responsibleId.hashCode() : 0);
         String type = this.getType();
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
 
@@ -211,12 +202,20 @@ public class Activity {
         this.event = event;
     }
 
+    public void setEvent(int event_id) {
+        this.event = new Event(event_id);
+    }
+
     public User getResponsible() {
         return responsible;
     }
 
     public void setResponsible(User user) {
         this.responsible = user;
+    }
+
+    public void setResponsible(int responsible_id) {
+        this.responsible = new User(responsible_id);
     }
 
     public Collection<Booking> getBookings() {
