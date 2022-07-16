@@ -1,5 +1,7 @@
 package com.glofox.test.backend.dto;
 
+import com.glofox.test.backend.controller.exception.BadDateTimeOrderException;
+import com.glofox.test.backend.controller.exception.IncorrectTimeFormatException;
 import com.vladmihalcea.hibernate.type.range.Range;
 
 import java.io.Serializable;
@@ -30,9 +32,23 @@ public class ActivityDto implements Serializable {
         this.capacity = capacity;
         this.description = description;
 
-        this.dateRange = Range.localDateRange(dateRange);
-        this.startAt = OffsetTime.parse(startAt);
-        this.endAt = OffsetTime.parse(endAt);
+        try {
+            this.dateRange = Range.localDateRange(dateRange);
+        } catch (RuntimeException e) {
+            throw new BadDateTimeOrderException(dateRange);
+        }
+
+        try {
+            this.startAt = OffsetTime.parse(startAt);
+        } catch (RuntimeException e) {
+            throw new IncorrectTimeFormatException("startAt", startAt);
+        }
+
+        try {
+            this.endAt = OffsetTime.parse(endAt);
+        } catch (RuntimeException e) {
+            throw new IncorrectTimeFormatException("endAt", endAt);
+        }
     }
 
     public Integer getId() {
