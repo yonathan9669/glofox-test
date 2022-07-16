@@ -1,0 +1,21 @@
+table:
+  schema: public
+  name: activity
+object_relationships:
+  - name: activity_type
+    using:
+      foreign_key_constraint_on: type
+  - name: event
+    using:
+      foreign_key_constraint_on: event_id
+  - name: user
+    using:
+      foreign_key_constraint_on: responsible_id
+array_relationships:
+  - name: bookings
+    using:
+      foreign_key_constraint_on:
+        column: activity_id
+        table:
+          schema: public
+          name: booking

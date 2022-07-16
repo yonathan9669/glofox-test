@@ -1,0 +1,80 @@
+version: '3.9'
+services:
+  db:
+    container_name: glofox-postgres
+    image: postgres:12
+    networks:
+      - backend
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    secrets:
+      - db-password
+    environment:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+  #      POSTGRES_PASSWORD_FILE: $POSTGRES_PASSWORD_FILE
+
+  backend:
+    container_name: glofox-springboot
+    build: backend
+    restart: always
+    ports:
+      - 8001:8001
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  gateway:
+    container_name: glofox-hasura
+    build: hasura
+    networks:
+      - backend
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    secrets:
+      - db-password
+    environment:
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: $HASURA_ENABLE_CONSOLE # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: $HASURA_DEV_MODE
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+      HASURA_GRAPHQL_CORS_DOMAIN: "*"
+      HASURA_GRAPHQL_ENABLE_REMOTE_SCHEMA_PERMISSIONS: "true"
+
+  proxy:
+    container_name: glofox-nginx
+    build: proxy
+    restart: always
+    ports:
+      - 8000:80
+    depends_on:
+      - gateway
+    networks:
+      - backend
+      - frontend
+
+volumes:
+  db_data:
+
+networks:
+  backend:
+    internal: true
+  frontend:
+
+secrets:
+  db-password:
+    file: db/password.txt

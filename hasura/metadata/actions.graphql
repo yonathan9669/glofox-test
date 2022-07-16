@@ -1,0 +1,22 @@
+type Mutation {
+  newActivity(
+    activity: ActivityInput!
+  ): ActivityOutput
+}
+
+input ActivityInput {
+  dateRange: String!
+  capacity: Int!
+  event: Int!
+  name: String!
+  startAt: String!
+  endAt: String!
+  type: String!
+  description: String!
+  responsible: Int
+}
+
+type ActivityOutput {
+  id: Int!
+}
+
