@@ -1,6 +1,6 @@
 {
   "name": "glofox-test",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "This is a solution for the glofox-test",
   "main": "index.js",
   "scripts": {
