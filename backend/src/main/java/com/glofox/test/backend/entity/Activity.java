@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.OffsetTime;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @TypeDef(typeClass = PostgreSQLRangeType.class, defaultForType = Range.class)
@@ -36,6 +37,10 @@ public class Activity {
     @Column(name = "end_at", nullable = false, columnDefinition = "TIME WITH TIME ZONE")
     private OffsetTime endAt;
     @ManyToOne
+    @JoinColumn(name = "type", referencedColumnName = "name", nullable = false)
+    @JsonIgnoreProperties("activities")
+    private ActivityType type;
+    @ManyToOne
     @JoinColumn(name = "event_id", referencedColumnName = "id", nullable = false)
     @JsonIgnoreProperties("activities")
     private Event event;
@@ -43,10 +48,6 @@ public class Activity {
     @JoinColumn(name = "responsible_id", referencedColumnName = "id")
     @JsonIgnoreProperties("activities")
     private User responsible;
-    @ManyToOne
-    @JoinColumn(name = "type", referencedColumnName = "name", nullable = false)
-    @JsonIgnoreProperties("activities")
-    private ActivityType activityType;
     @OneToMany(mappedBy = "activity")
     @JsonIgnoreProperties("activity")
     private Collection<Booking> bookings;
@@ -61,15 +62,6 @@ public class Activity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getEventId() {
-        return this.event.getId();
-    }
-
-    public void setEventId(Integer event_id) {
-        this.event = new Event();
-        this.event.setId(event_id);
     }
 
     public String getName() {
@@ -124,29 +116,12 @@ public class Activity {
         this.endAt = endAt;
     }
 
-    public Integer getResponsibleId() {
-        if (this.responsible == null) return null;
-        return this.responsible.getId();
+    public ActivityType getType() {
+        return this.type;
     }
 
-    public void setResponsibleId(Integer responsible_id) {
-        if (responsible_id == null) return;
-
-        this.responsible = new User();
-        this.responsible.setId(responsible_id);
-    }
-
-    public String getActivityType() {
-        return this.activityType.getName();
-    }
-
-    public void setActivityType(ActivityType activityType) {
-        this.activityType = activityType;
-    }
-
-    public void setActivityType(String name) {
-        this.activityType = new ActivityType();
-        this.activityType.setName(name);
+    public void setType(ActivityType type) {
+        this.type = type;
     }
 
     @Override
@@ -156,43 +131,21 @@ public class Activity {
 
         Activity activity = (Activity) o;
 
-        if (id != activity.id) return false;
-        if (this.getEventId() != activity.getEventId()) return false;
-        if (capacity != activity.capacity) return false;
-        if (name != null ? !name.equals(activity.name) : activity.name != null) return false;
-        if (description != null ? !description.equals(activity.description) : activity.description != null)
-            return false;
-        if (dateRange != null ? !dateRange.equals(activity.dateRange) : activity.dateRange != null) return false;
-        if (startAt != null ? !startAt.equals(activity.startAt) : activity.startAt != null) return false;
-        if (endAt != null ? !endAt.equals(activity.endAt) : activity.endAt != null) return false;
-
-        Integer responsibleId = this.getResponsibleId();
-        Integer activityResponsibleId = activity.getResponsibleId();
-        if (responsibleId != null ? !responsibleId.equals(activityResponsibleId) : activityResponsibleId != null)
-            return false;
-
-        String type = this.getActivityType();
-        String activityType = activity.getActivityType();
-        if (type != null ? !type.equals(activityType) : activityType != null) return false;
-
-        return true;
+        return Objects.equals(this.id, activity.id) &&
+                Objects.equals(this.name, activity.name) &&
+                Objects.equals(this.capacity, activity.capacity) &&
+                Objects.equals(this.description, activity.description) &&
+                Objects.equals(this.dateRange, activity.dateRange) &&
+                Objects.equals(this.startAt, activity.startAt) &&
+                Objects.equals(this.endAt, activity.endAt) &&
+                Objects.equals(this.event, activity.event) &&
+                Objects.equals(this.responsible, activity.responsible) &&
+                Objects.equals(this.type, activity.type);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + this.getEventId();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + capacity;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (dateRange != null ? dateRange.hashCode() : 0);
-        result = 31 * result + (startAt != null ? startAt.hashCode() : 0);
-        result = 31 * result + (endAt != null ? endAt.hashCode() : 0);
-        Integer responsibleId = this.getResponsibleId();
-        result = 31 * result + (responsibleId != null ? responsibleId.hashCode() : 0);
-        String type = this.getActivityType();
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        return result;
+        return Objects.hash(id, name, capacity, description, dateRange, startAt, endAt, type, responsible, event);
     }
 
     public Event getEvent() {
