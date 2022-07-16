@@ -1,1 +1,10 @@
-[]
+- name: allowed-queries
+  definition:
+    queries:
+      - name: New classes
+        query: |
+          mutation newClass ($activity: ActivityInput!) {
+          	newActivity(activity: $activity) {
+          		id
+          	}
+          }

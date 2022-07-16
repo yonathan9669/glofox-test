@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   db:
-    container_name: glofox-db
+    container_name: glofox-postgres
     image: postgres:12
     networks:
       - backend
@@ -16,7 +16,20 @@ services:
       POSTGRES_DB: $POSTGRES_DB
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-#      POSTGRES_PASSWORD_FILE: $POSTGRES_PASSWORD_FILE
+  #      POSTGRES_PASSWORD_FILE: $POSTGRES_PASSWORD_FILE
+
+  backend:
+    container_name: glofox-springboot
+    build: backend
+    restart: always
+    ports:
+      - 8001:8001
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - backend
 
   gateway:
     container_name: glofox-hasura
@@ -43,7 +56,7 @@ services:
       HASURA_GRAPHQL_ENABLE_REMOTE_SCHEMA_PERMISSIONS: "true"
 
   proxy:
-    container_name: glofox-proxy
+    container_name: glofox-nginx
     build: proxy
     restart: always
     ports:

@@ -1,1 +1,9 @@
-[]
+- definition:
+    query:
+      collection_name: allowed-queries
+      query_name: New classes
+  url: classes
+  methods:
+    - POST
+  name: New classes
+  comment: Example remote endpoint mapping
