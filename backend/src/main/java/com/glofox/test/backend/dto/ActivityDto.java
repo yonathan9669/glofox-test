@@ -12,6 +12,7 @@ import java.util.Objects;
 public class ActivityDto implements Serializable {
     private final String name;
     private final int capacity;
+    private final Boolean overbooking;
     private final String description;
     private final Range<LocalDate> dateRange;
     private final OffsetTime startAt;
@@ -23,13 +24,14 @@ public class ActivityDto implements Serializable {
 
     public ActivityDto(String type, String name, int capacity, String description,
                        String dateRange, String startAt, String endAt,
-                       Integer event, Integer responsible) {
+                       Integer event, Integer responsible, Boolean overbooking) {
         this.event = event;
         this.type = type;
         this.responsible = responsible;
 
         this.name = name;
         this.capacity = capacity;
+        this.overbooking = overbooking != null && overbooking;
         this.description = description;
 
         try {
@@ -75,6 +77,10 @@ public class ActivityDto implements Serializable {
         return capacity;
     }
 
+    public Boolean getOverbooking() {
+        return overbooking;
+    }
+    
     public String getDescription() {
         return description;
     }
@@ -102,6 +108,7 @@ public class ActivityDto implements Serializable {
         ActivityDto entity = (ActivityDto) o;
         return Objects.equals(this.name, entity.name) &&
                 Objects.equals(this.capacity, entity.capacity) &&
+                Objects.equals(this.overbooking, entity.overbooking) &&
                 Objects.equals(this.description, entity.description) &&
                 Objects.equals(this.dateRange, entity.dateRange) &&
                 Objects.equals(this.startAt, entity.startAt) &&
@@ -113,7 +120,7 @@ public class ActivityDto implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, capacity, description, dateRange, startAt, endAt, type, responsible, event);
+        return Objects.hash(name, capacity, overbooking, description, dateRange, startAt, endAt, type, responsible, event);
     }
 
     @Override
@@ -122,6 +129,7 @@ public class ActivityDto implements Serializable {
                 "event = " + event + ", " +
                 "name = " + name + ", " +
                 "capacity = " + capacity + ", " +
+                "overbooking = " + overbooking + ", " +
                 "description = " + description + ", " +
                 "dateRange = " + dateRange + ", " +
                 "startAt = " + startAt + ", " +

@@ -7,6 +7,7 @@ type Mutation {
 input ActivityInput {
   dateRange: String!
   capacity: Int!
+  overbooking: Boolean
   event: Int!
   name: String!
   startAt: String!
@@ -18,5 +19,10 @@ input ActivityInput {
 
 type ActivityOutput {
   id: Int!
+  name: String!
+  dateRange: String!
+  startAt: String!
+  endAt: String!
+  type: String!
 }
 

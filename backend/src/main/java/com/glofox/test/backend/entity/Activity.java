@@ -25,6 +25,9 @@ public class Activity {
     @Column(name = "capacity", nullable = false)
     private int capacity;
     @Basic
+    @Column(name = "allow_overbooking", nullable = false)
+    private boolean overbooking;
+    @Basic
     @Column(name = "description", nullable = true, length = -1)
     private String description;
     @Basic
@@ -84,6 +87,14 @@ public class Activity {
         this.capacity = capacity;
     }
 
+    public Boolean getOverbooking() {
+        return overbooking;
+    }
+
+    public void setOverbooking(Boolean overbooking) {
+        this.overbooking = overbooking != null && overbooking;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -134,6 +145,7 @@ public class Activity {
         return Objects.equals(this.id, activity.id) &&
                 Objects.equals(this.name, activity.name) &&
                 Objects.equals(this.capacity, activity.capacity) &&
+                Objects.equals(this.overbooking, activity.overbooking) &&
                 Objects.equals(this.description, activity.description) &&
                 Objects.equals(this.dateRange, activity.dateRange) &&
                 Objects.equals(this.startAt, activity.startAt) &&
@@ -145,7 +157,7 @@ public class Activity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, capacity, description, dateRange, startAt, endAt, type, responsible, event);
+        return Objects.hash(id, name, capacity, overbooking, description, dateRange, startAt, endAt, type, responsible, event);
     }
 
     public Event getEvent() {
