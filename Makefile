@@ -13,3 +13,7 @@ stop:
 .PHONY: down
 down:
 	docker-compose down
+
+.PHONY: release
+release:
+	npm run release
