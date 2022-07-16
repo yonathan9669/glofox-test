@@ -12,17 +12,9 @@ public class ActivityType {
     @Id
     @Column(name = "name", nullable = false, length = -1)
     private String name;
-    @OneToMany(mappedBy = "type")
+    @OneToMany(mappedBy = "activityType")
     @JsonIgnoreProperties("type")
     private Collection<Activity> activities;
-
-    public ActivityType() {
-
-    }
-
-    ActivityType(String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;

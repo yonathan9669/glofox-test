@@ -29,14 +29,6 @@ public class Event {
     @JsonIgnoreProperties("events")
     private EventType type;
 
-    public Event() {
-
-    }
-
-    Event(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }

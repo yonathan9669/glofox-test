@@ -33,14 +33,6 @@ public class User {
     @JsonIgnoreProperties("member")
     private Collection<Membership> memberships;
 
-    public User() {
-
-    }
-
-    User(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }

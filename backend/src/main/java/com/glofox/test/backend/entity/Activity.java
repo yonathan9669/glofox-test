@@ -46,7 +46,7 @@ public class Activity {
     @ManyToOne
     @JoinColumn(name = "type", referencedColumnName = "name", nullable = false)
     @JsonIgnoreProperties("activities")
-    private ActivityType type;
+    private ActivityType activityType;
     @OneToMany(mappedBy = "activity")
     @JsonIgnoreProperties("activity")
     private Collection<Booking> bookings;
@@ -65,6 +65,11 @@ public class Activity {
 
     public int getEventId() {
         return this.event.getId();
+    }
+
+    public void setEventId(Integer event_id) {
+        this.event = new Event();
+        this.event.setId(event_id);
     }
 
     public String getName() {
@@ -103,20 +108,12 @@ public class Activity {
         this.dateRange = dateRange;
     }
 
-    public void setDateRange(String dateRange) {
-        this.dateRange = Range.localDateRange(dateRange);
-    }
-
     public OffsetTime getStartAt() {
         return startAt;
     }
 
     public void setStartAt(OffsetTime startAt) {
         this.startAt = startAt;
-    }
-
-    public void setStartAt(String startAt) {
-        this.startAt = OffsetTime.parse(startAt);
     }
 
     public OffsetTime getEndAt() {
@@ -127,25 +124,29 @@ public class Activity {
         this.endAt = endAt;
     }
 
-    public void setEndAt(String endAt) {
-        this.endAt = OffsetTime.parse(endAt);
-    }
-
     public Integer getResponsibleId() {
         if (this.responsible == null) return null;
         return this.responsible.getId();
     }
 
-    public String getType() {
-        return this.type.getName();
+    public void setResponsibleId(Integer responsible_id) {
+        if (responsible_id == null) return;
+
+        this.responsible = new User();
+        this.responsible.setId(responsible_id);
     }
 
-    public void setType(ActivityType activityType) {
-        this.type = activityType;
+    public String getActivityType() {
+        return this.activityType.getName();
     }
 
-    public void setType(String name) {
-        this.type = new ActivityType(name);
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
+    }
+
+    public void setActivityType(String name) {
+        this.activityType = new ActivityType();
+        this.activityType.setName(name);
     }
 
     @Override
@@ -170,8 +171,8 @@ public class Activity {
         if (responsibleId != null ? !responsibleId.equals(activityResponsibleId) : activityResponsibleId != null)
             return false;
 
-        String type = this.getType();
-        String activityType = activity.getType();
+        String type = this.getActivityType();
+        String activityType = activity.getActivityType();
         if (type != null ? !type.equals(activityType) : activityType != null) return false;
 
         return true;
@@ -189,7 +190,7 @@ public class Activity {
         result = 31 * result + (endAt != null ? endAt.hashCode() : 0);
         Integer responsibleId = this.getResponsibleId();
         result = 31 * result + (responsibleId != null ? responsibleId.hashCode() : 0);
-        String type = this.getType();
+        String type = this.getActivityType();
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
@@ -202,20 +203,12 @@ public class Activity {
         this.event = event;
     }
 
-    public void setEvent(int event_id) {
-        this.event = new Event(event_id);
-    }
-
     public User getResponsible() {
         return responsible;
     }
 
     public void setResponsible(User user) {
         this.responsible = user;
-    }
-
-    public void setResponsible(int responsible_id) {
-        this.responsible = new User(responsible_id);
     }
 
     public Collection<Booking> getBookings() {

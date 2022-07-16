@@ -11,7 +11,7 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL12Dialect
     hibernate:
       ddl-auto: update
       use-new-id-generator-mappings: true
@@ -19,12 +19,11 @@ spring:
     properties:
       hibernate:
         jdbc.lob.non_contextual_creation: true
-        show_sql: true
-        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc.batch_size: 10
         order_updates: true
         batch_versioned_data: true
+        default_schema: public
   sql:
     init:
       mode: always
