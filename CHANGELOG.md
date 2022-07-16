@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/yonathan9669/glofox-test/compare/v1.1.0...v1.2.0) (2022-07-16)
+
+
+### Features
+
+* **backend:** 👻 Activity Validations ([89b35db](https://github.com/yonathan9669/glofox-test/commit/89b35db4eb1444e2e2ccd1d4a8d1d6563cbd350b)), closes [#3](https://github.com/yonathan9669/glofox-test/issues/3)
+
+
+### Bug Fixes
+
+* **backend:** 👻 Hibernate ([9936193](https://github.com/yonathan9669/glofox-test/commit/99361933f2513c5cd9b9c30aa70ea44ee0c9ab85)), closes [#1](https://github.com/yonathan9669/glofox-test/issues/1)
+
 ## 1.1.0 (2022-07-16)
 
 

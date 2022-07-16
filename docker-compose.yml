@@ -23,7 +23,7 @@ services:
     build: backend
     restart: always
     ports:
-      - 8001:8001
+      - 8081:${SPRING_PORT}
     env_file:
       - .env
     depends_on:

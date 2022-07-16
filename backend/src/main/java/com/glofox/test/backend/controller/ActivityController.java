@@ -1,33 +1,25 @@
 package com.glofox.test.backend.controller;
 
-import com.glofox.test.backend.dto.ActivityInput;
-import com.glofox.test.backend.dto.ActivityOutput;
+import com.glofox.test.backend.dto.ActivityDto;
+import com.glofox.test.backend.dto.ActivityMapper;
 import com.glofox.test.backend.entity.Activity;
-import com.glofox.test.backend.repository.ActivityRepository;
-import org.modelmapper.ModelMapper;
+import com.glofox.test.backend.service.ActivityService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ActivityController {
-    private final ActivityRepository repository;
-    private final ModelMapper modelMapper;
+    private final ActivityService service;
 
-    public ActivityController(ActivityRepository repository, ModelMapper modelMapper) {
-        this.repository = repository;
-        this.modelMapper = modelMapper;
+    public ActivityController(ActivityService service) {
+        this.service = service;
     }
 
     @PostMapping("/activities")
-    ActivityOutput handler(@RequestBody ActivityInput activityDto) {
-        Activity activity;
-        try {
-            activity = repository.save(modelMapper.map(activityDto, Activity.class));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return modelMapper.map(activity, ActivityOutput.class);
+    ActivityDto handler(@RequestBody ActivityDto activityDto) {
+        Activity activity = ActivityMapper.INSTANCE.incoming(activityDto);
+        service.save(activity);
+        return ActivityMapper.INSTANCE.outgoing(activity);
     }
 }

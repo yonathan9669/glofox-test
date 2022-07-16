@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "activity_type", schema = "public", catalog = "glofox")
@@ -12,7 +13,7 @@ public class ActivityType {
     @Id
     @Column(name = "name", nullable = false, length = -1)
     private String name;
-    @OneToMany(mappedBy = "activityType")
+    @OneToMany(mappedBy = "type")
     @JsonIgnoreProperties("type")
     private Collection<Activity> activities;
 
@@ -31,9 +32,7 @@ public class ActivityType {
 
         ActivityType that = (ActivityType) o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-
-        return true;
+        return Objects.equals(name, that.name);
     }
 
     @Override

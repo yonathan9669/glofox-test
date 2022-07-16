@@ -12,10 +12,10 @@ spring:
     password: ${POSTGRES_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL12Dialect
+    generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
       use-new-id-generator-mappings: true
-      generate-ddl: true
     properties:
       hibernate:
         jdbc.lob.non_contextual_creation: true
