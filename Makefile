@@ -17,3 +17,7 @@ down:
 .PHONY: release
 release:
 	npm run release
+
+.PHONY: seed-example
+seed-example:
+	npm run hasura:seed
