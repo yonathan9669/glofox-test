@@ -60,14 +60,6 @@
       </li>
       <li>
         <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-e2e-nightwatch"
-          target="_blank"
-          rel="noopener"
-          >e2e-nightwatch</a
-        >
-      </li>
-      <li>
-        <a
           href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript"
           target="_blank"
           rel="noopener"
@@ -135,14 +127,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-export default defineComponent({
-  name: "HelloWorld",
-  props: {
-    msg: String,
-  },
-});
+@Component
+export default class HelloWorld extends Vue {
+  @Prop() private msg!: string;
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
