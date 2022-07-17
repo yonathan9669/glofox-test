@@ -1,4 +1,10 @@
 type Mutation {
+  bookActivity(
+    bookings: BookingsInput!
+  ): BookingsOutput
+}
+
+type Mutation {
   newActivity(
     activity: ActivityInput!
   ): ActivityOutput
@@ -7,6 +13,7 @@ type Mutation {
 input ActivityInput {
   dateRange: String!
   capacity: Int!
+  overbooking: Boolean
   event: Int!
   name: String!
   startAt: String!
@@ -16,7 +23,30 @@ input ActivityInput {
   responsible: Int
 }
 
+input BookingsInput {
+  member: Int!
+  activity: Int!
+  dates: [String]
+  dateRange: String
+}
+
 type ActivityOutput {
   id: Int!
+  name: String!
+  dateRange: String!
+  startAt: String!
+  endAt: String!
+  type: String!
+}
+
+type Booking {
+  id: Int!
+  date: String!
+}
+
+type BookingsOutput {
+  member: Int!
+  activity: Int!
+  bookings: [Booking]!
 }
 

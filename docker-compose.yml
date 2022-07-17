@@ -21,15 +21,15 @@ services:
   backend:
     container_name: glofox-springboot
     build: backend
+    networks:
+      - backend
+    depends_on:
+      - db
     restart: always
     ports:
       - 8081:${SPRING_PORT}
     env_file:
       - .env
-    depends_on:
-      - db
-    networks:
-      - backend
 
   gateway:
     container_name: glofox-hasura

@@ -1,9 +1,18 @@
 - definition:
     query:
       collection_name: allowed-queries
+      query_name: Book a Class
+  url: bookings
+  methods:
+    - POST
+  name: Book a Class
+  comment: This endpoint forwards the booking process to the backend service
+- definition:
+    query:
+      collection_name: allowed-queries
       query_name: New classes
   url: classes
   methods:
     - POST
   name: New classes
-  comment: Example remote endpoint mapping
+  comment: This endpoint forwards the activity creations to the backend service

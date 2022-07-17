@@ -1,10 +1,27 @@
 - name: allowed-queries
   definition:
     queries:
+      - name: Book a Class
+        query: |
+          mutation bookClass ($bookings: BookingsInput!) {
+          	confirmations: bookActivity(bookings: $bookings) {
+          		member
+          		activity
+          		bookings {
+          			id
+          			date
+          		}
+          	}
+          }
       - name: New classes
         query: |
           mutation newClass ($activity: ActivityInput!) {
-          	newActivity(activity: $activity) {
+          	activity: newActivity(activity: $activity) {
           		id
+          		name
+          		dateRange
+          		startAt
+          		endAt
+          		type
           	}
           }
