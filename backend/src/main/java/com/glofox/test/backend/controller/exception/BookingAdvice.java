@@ -30,9 +30,16 @@ public class BookingAdvice {
     }
 
     @ResponseBody
-    @ExceptionHandler(BookingDateUnavailable.class)
+    @ExceptionHandler(BookingDateUnavailableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    BookingDateUnavailable activityNotFoundHandler(BookingDateUnavailable ex) {
+    BookingDateUnavailableException bookingDateUnavailableHandler(BookingDateUnavailableException ex) {
+        return ex;
+    }
+
+    @ResponseBody
+    @ExceptionHandler(DuplicatedBookingException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    DuplicatedBookingException duplicatedBookingHandler(DuplicatedBookingException ex) {
         return ex;
     }
 }
