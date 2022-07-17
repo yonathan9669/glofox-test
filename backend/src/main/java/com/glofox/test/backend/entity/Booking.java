@@ -3,7 +3,7 @@ package com.glofox.test.backend.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 public class Booking {
@@ -13,7 +13,7 @@ public class Booking {
     private int id;
     @Basic
     @Column(name = "date", nullable = false)
-    private Timestamp date;
+    private LocalDate date;
     @Basic
     @Column(name = "attended", nullable = true)
     private Boolean attended;
@@ -46,11 +46,11 @@ public class Booking {
         return this.activity.getId();
     }
 
-    public Timestamp getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

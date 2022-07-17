@@ -183,4 +183,15 @@ public class Activity {
     public void setBookings(Collection<Booking> bookings) {
         this.bookings = bookings;
     }
+
+    public boolean canBook(LocalDate date) {
+        if (!dateRange.contains(date)) return false;
+        if (overbooking) return true;
+
+        int reserves = bookings.stream().filter(booking -> {
+            return booking.getDate().isEqual(date);
+        }).toList().size();
+
+        return reserves < capacity;
+    }
 }
