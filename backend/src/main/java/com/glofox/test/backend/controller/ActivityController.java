@@ -17,7 +17,7 @@ public class ActivityController {
     }
 
     @PostMapping("/activities")
-    ActivityDto handler(@RequestBody ActivityDto activityDto) {
+    ActivityDto.Out handler(@RequestBody ActivityDto activityDto) {
         Activity activity = ActivityMapper.INSTANCE.incoming(activityDto);
         service.save(activity);
         return ActivityMapper.INSTANCE.outgoing(activity);

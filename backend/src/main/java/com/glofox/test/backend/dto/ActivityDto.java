@@ -80,7 +80,7 @@ public class ActivityDto implements Serializable {
     public Boolean getOverbooking() {
         return overbooking;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -136,6 +136,26 @@ public class ActivityDto implements Serializable {
                 "endAt = " + endAt + ", " +
                 "type = " + type + ", " +
                 "responsible = " + responsible + ")";
+    }
+
+    public static class Out {
+        public Integer id;
+        public String name;
+        public int capacity;
+        public boolean overbooking;
+        public String description;
+        public DateRange dateRange;
+        public String startAt;
+        public String endAt;
+        public String type;
+        public Integer event;
+        public Integer responsible;
+    }
+
+    public static class DateRange {
+        public String start;
+        public String end;
+        public String range;
     }
 }
 
