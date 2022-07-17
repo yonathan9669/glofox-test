@@ -151,6 +151,8 @@ ALTER TABLE ONLY public.activity
     ADD CONSTRAINT activity_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.booking
     ADD CONSTRAINT booking_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.booking
+    ADD CONSTRAINT booking_member_id_activity_id_date_key UNIQUE (member_id, activity_id, date);
 ALTER TABLE ONLY public.business
     ADD CONSTRAINT business_name_key UNIQUE (name);
 ALTER TABLE ONLY public.business
