@@ -33,10 +33,11 @@ input BookingsInput {
 type ActivityOutput {
   id: Int!
   name: String!
+  type: String!
   dateRange: String!
   startAt: String!
   endAt: String!
-  type: String!
+  overbooking: Boolean!
 }
 
 type Booking {
@@ -49,4 +50,3 @@ type BookingsOutput {
   activity: Int!
   bookings: [Booking]!
 }
-

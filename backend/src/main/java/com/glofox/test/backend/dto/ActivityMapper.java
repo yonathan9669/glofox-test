@@ -18,7 +18,7 @@ public interface ActivityMapper {
 
     Activity incoming(ActivityDto activityDto);
 
-    ActivityDto outgoing(Activity activity);
+    ActivityDto.Out outgoing(Activity activity);
 
     default String map(@NotNull ActivityType type) {
         return type.getName();
@@ -60,5 +60,17 @@ public interface ActivityMapper {
         Event event = new Event();
         event.setId(id);
         return event;
+    }
+
+    default ActivityDto.DateRange toDateRange(Range<LocalDate> range) {
+        ActivityDto.DateRange dateRange = new ActivityDto.DateRange();
+        LocalDate lower = range.lower();
+        LocalDate upper = range.upper();
+
+        dateRange.range = range.asString();
+        dateRange.start = range.isLowerBoundClosed() ? lower.toString() : lower.plusDays(1).toString();
+        dateRange.end = range.isUpperBoundClosed() ? upper.toString() : upper.minusDays(1).toString();
+
+        return dateRange;
     }
 }

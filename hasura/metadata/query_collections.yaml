@@ -19,6 +19,7 @@
           	activity: newActivity(activity: $activity) {
           		id
           		name
+          		overbooking
           		dateRange
           		startAt
           		endAt
