@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/yonathan9669/glofox-test/compare/v1.2.0...v1.3.0) (2022-07-17)
+
+
+### Features
+
+* **backend:** 👻 Booking Service ([8eafa76](https://github.com/yonathan9669/glofox-test/commit/8eafa765713701f7616f2436142f1b51add269db)), closes [#5](https://github.com/yonathan9669/glofox-test/issues/5)
+* **backend:** 👻 Constraints Handling ([8707605](https://github.com/yonathan9669/glofox-test/commit/870760565942370d4ceb66c4decdd40da33f4f6e)), closes [#5](https://github.com/yonathan9669/glofox-test/issues/5)
+* **gateway:** 👻 Booking Service Mapping ([9287cb9](https://github.com/yonathan9669/glofox-test/commit/9287cb9af10d69d490d431269cd215ef8e37520a)), closes [#5](https://github.com/yonathan9669/glofox-test/issues/5)
+
 ## [1.2.0](https://github.com/yonathan9669/glofox-test/compare/v1.1.0...v1.2.0) (2022-07-16)
 
 
