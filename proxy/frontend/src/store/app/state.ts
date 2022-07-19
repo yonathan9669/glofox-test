@@ -8,6 +8,7 @@ export function initState(): App {
     user: {} as UserInfo,
     businesses: [],
     businessTypes: [],
+    event: {} as Event,
     eventTypes: [],
     activityTypes: [],
   };
@@ -29,6 +30,9 @@ export const mutations: MutationTree<App> = {
   setEventTypes: async (state, payload) => {
     state.eventTypes = payload;
   },
+  setEvent: async (state, payload) => {
+    state.event = payload;
+  },
   setActivityTypes: async (state, payload) => {
     state.activityTypes = payload;
   },
@@ -49,5 +53,8 @@ export const getters: GetterTree<App, RootState> = {
   },
   eventTypes: ({ eventTypes }): AppType[] => {
     return eventTypes;
+  },
+  event: ({ event }): Event => {
+    return event;
   },
 };

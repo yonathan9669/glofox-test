@@ -1,10 +1,12 @@
 import { ActionTree } from "vuex";
 
 import { State as RootState } from "@/store/state";
-import { App, UserInfo } from "./interfaces";
+import { App, UserInfo, Event, Business } from "./interfaces";
+
 import { getTypes } from "@/store/app/queries/types";
 import { findUser, insertUser } from "@/store/app/queries/user";
 import { myBusinesses, insertBusiness } from "@/store/app/queries/business";
+import { findEvents, insertEvent } from "@/store/app/queries/event";
 
 const actions: ActionTree<App, RootState> = {
   loadTypes: async ({ commit, rootState: { apolloClient } }): Promise<void> => {
@@ -40,8 +42,8 @@ const actions: ActionTree<App, RootState> = {
   createUser: async (
     { rootState: { apolloClient } },
     userData
-  ): Promise<UserInfo | void> => {
-    if (!apolloClient) return;
+  ): Promise<UserInfo | null> => {
+    if (!apolloClient) return null;
 
     const {
       data: { user },
@@ -52,11 +54,9 @@ const actions: ActionTree<App, RootState> = {
 
     return user;
   },
-  selectUser: async ({ commit }, user): Promise<void> => {
+  selectUser: ({ commit }, user): void => {
     if (!user?.id) throw new Error("User must be in the DB");
-
-    await commit("setUser", user);
-    return;
+    commit("setUser", user);
   },
   // ---------------------------------------------------------------------------
   // BUSINESS
@@ -80,8 +80,8 @@ const actions: ActionTree<App, RootState> = {
   createBusiness: async (
     { state: { user }, rootState: { apolloClient } },
     businessData
-  ): Promise<void> => {
-    if (!apolloClient) return;
+  ): Promise<Business | null> => {
+    if (!apolloClient) return null;
 
     const {
       data: { business },
@@ -91,6 +91,43 @@ const actions: ActionTree<App, RootState> = {
     });
 
     return business;
+  },
+  // ---------------------------------------------------------------------------
+  // EVENT
+  // ---------------------------------------------------------------------------
+  businessEvents: async (
+    { rootState: { apolloClient } },
+    business
+  ): Promise<Event[]> => {
+    if (!apolloClient) return [];
+
+    const {
+      data: { events },
+    } = await apolloClient.query({
+      query: findEvents,
+      variables: { business: business.id },
+    });
+
+    return events;
+  },
+  createEvent: async (
+    { rootState: { apolloClient } },
+    eventData
+  ): Promise<Event | null> => {
+    if (!apolloClient) return null;
+
+    const {
+      data: { event },
+    } = await apolloClient.mutate({
+      mutation: insertEvent,
+      variables: eventData,
+    });
+
+    return event;
+  },
+  selectEvent: ({ commit }, event): void => {
+    if (!event?.id) throw new Error("Event must be in the DB");
+    commit("setEvent", event);
   },
 };
 

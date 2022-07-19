@@ -10,3 +10,26 @@ export const findEvents = gql`
     }
   }
 `;
+
+export const insertEvent = gql`
+  mutation insertEvent(
+    $business: Int!
+    $name: String!
+    $type: event_type_enum!
+    $description: String
+  ) {
+    event: insert_event_one(
+      object: {
+        business_id: $business
+        name: $name
+        type: $type
+        description: $description
+      }
+    ) {
+      id
+      name
+      type
+      description
+    }
+  }
+`;

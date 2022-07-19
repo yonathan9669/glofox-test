@@ -4,6 +4,7 @@ export interface App {
   businesses: Business[];
   businessTypes: AppType[];
   eventTypes: AppType[];
+  event: Event;
   activityTypes: AppType[];
 }
 
@@ -22,6 +23,14 @@ export interface Business {
 }
 
 export interface Event {
+  id?: number;
+  name: string;
+  type: string;
+  description: string;
+  business?: Business | number;
+}
+
+export interface Activity {
   id?: number;
   name: string;
 }

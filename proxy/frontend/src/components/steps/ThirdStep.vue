@@ -19,27 +19,36 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { PathOptions, Event } from "@/store/app";
+import { PathOptions, Event, Activity } from "@/store/app";
 import EventSelector from "@/components/EventSelector.vue";
+import { mapActions } from "vuex";
 
 @Component({
   components: {
     EventSelector,
   },
-  methods: {},
+  methods: {
+    ...mapActions("app", ["selectEvent"]),
+  },
   computed: {},
 })
 export default class thirdStep extends Vue {
   event: Event | null = null;
-  activity!: any;
+  activity: Activity | null = null;
 
   @Prop({ type: String }) path!: string;
+
+  selectEvent!: (event: Event | null) => void;
 
   $refs!: {
     event: EventSelector;
   };
 
   nextStep(): void {
+    if (this.isBookingPath) {
+      // TODO: select Activity
+    } else this.selectEvent(this.event);
+
     this.$emit("continue");
   }
 
@@ -58,7 +67,7 @@ export default class thirdStep extends Vue {
 
   get canContinue(): boolean {
     const value = this.event || this.activity;
-    return value && value.id;
+    return value != null && !!value.id;
   }
 }
 </script>
