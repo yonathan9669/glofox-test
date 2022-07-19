@@ -4,7 +4,7 @@ import { State as RootState } from "@/store/state";
 import { App, UserInfo } from "./interfaces";
 import { getTypes } from "@/store/app/queries/types";
 import { findUser, insertUser } from "@/store/app/queries/user";
-import { findBusinesses, insertBusiness } from "@/store/app/queries/business";
+import { myBusinesses, insertBusiness } from "@/store/app/queries/business";
 
 const actions: ActionTree<App, RootState> = {
   loadTypes: async ({ commit, rootState: { apolloClient } }): Promise<void> => {
@@ -38,7 +38,7 @@ const actions: ActionTree<App, RootState> = {
     commit("setUsers", users);
   },
   createUser: async (
-    { commit, rootState: { apolloClient } },
+    { rootState: { apolloClient } },
     userData
   ): Promise<UserInfo | void> => {
     if (!apolloClient) return;
@@ -50,29 +50,35 @@ const actions: ActionTree<App, RootState> = {
       variables: userData,
     });
 
-    commit("setUser", user);
     return user;
+  },
+  selectUser: async ({ commit }, user): Promise<void> => {
+    if (!user?.id) throw new Error("User must be in the DB");
+
+    await commit("setUser", user);
+    return;
   },
   // ---------------------------------------------------------------------------
   // BUSINESS
   // ---------------------------------------------------------------------------
-  searchBusiness: async ({
+  myBusinesses: async ({
     commit,
-    state,
+    state: { user },
     rootState: { apolloClient },
   }): Promise<void> => {
     if (!apolloClient) return;
 
-    const { data } = await apolloClient.query({
-      query: findBusinesses,
-      variables: { owner: state.user.id },
+    const {
+      data: { businesses },
+    } = await apolloClient.query({
+      query: myBusinesses,
+      variables: { owner: user.id },
     });
 
-    commit("set", data);
-    // aqui falta colocar el set que corresponde no se donde iria este search ya que el loadtype carga todos los business
+    commit("setBusinesses", businesses);
   },
   createBusiness: async (
-    { commit, rootState: { apolloClient } },
+    { state: { user }, rootState: { apolloClient } },
     businessData
   ): Promise<void> => {
     if (!apolloClient) return;
@@ -81,10 +87,10 @@ const actions: ActionTree<App, RootState> = {
       data: { business },
     } = await apolloClient.mutate({
       mutation: insertBusiness,
-      variables: { business: businessData },
+      variables: { owner: user.id, ...businessData },
     });
 
-    commit("setBusiness", business.id);
+    return business;
   },
 };
 

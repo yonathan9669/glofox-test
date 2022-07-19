@@ -22,7 +22,7 @@
               <small>Create if needed</small>
             </v-stepper-step>
 
-            <v-stepper-content step="3"></v-stepper-content>
+            <third-step :path="path" @continue="nextStep"></third-step>
 
             <v-stepper-step step="4">
               Action Fulfillment
@@ -39,19 +39,17 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { mapActions } from "vuex";
 import { PathOptions, UserInfo } from "@/store/app";
 
 import FirstStep from "@/components/steps/FirstStep.vue";
 import SecondStep from "@/components/steps/SecondStep.vue";
+import ThirdStep from "@/components/steps/ThirdStep.vue";
 
 @Component({
   components: {
     FirstStep,
     SecondStep,
-  },
-  methods: {
-    ...mapActions("app", ["loadTypes"]),
+    ThirdStep,
   },
 })
 export default class App extends Vue {
@@ -60,18 +58,12 @@ export default class App extends Vue {
   selectedUser: UserInfo = { id: 0, name: "", phone: "", email: "" };
   path: PathOptions | null = null;
 
-  loadTypes!: () => void;
-
-  mounted(): void {
-    this.loadTypes();
-  }
-
   nextStep(): void {
-    console.log(this.path);
     this.step = this.step === 4 ? 1 : this.step + 1;
   }
 }
 </script>
+
 <style scoped>
 .stepper {
   min-width: 75vw;

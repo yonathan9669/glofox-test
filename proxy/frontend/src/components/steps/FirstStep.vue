@@ -18,6 +18,7 @@
             solo
             @keydown.enter="processUser"
             @blur="query = null"
+            :disabled="isNew"
           >
             <template v-slot:no-data>
               <v-list-item>
@@ -99,11 +100,7 @@
           register
         </v-btn>
 
-        <v-btn
-          color="primary"
-          @click="$emit('continue')"
-          :disabled="!user || !user.id"
-        >
+        <v-btn color="primary" @click="nextStep" :disabled="!user || !user.id">
           Continue
         </v-btn>
         <v-btn text @click="init"> Cancel</v-btn>
@@ -120,7 +117,7 @@ import { UserInfo } from "@/store/app";
 @Component({
   components: {},
   methods: {
-    ...mapActions("app", ["searchUser", "createUser"]),
+    ...mapActions("app", ["searchUser", "createUser", "selectUser"]),
   },
   computed: {
     ...mapGetters("app", ["users"]),
@@ -134,8 +131,9 @@ export default class firstStep extends Vue {
 
   user: UserInfo | null = {} as UserInfo;
 
-  createUser!: (user: UserInfo) => Promise<UserInfo>;
   searchUser!: (name: string) => Promise<void>;
+  selectUser!: (user: UserInfo) => Promise<UserInfo>;
+  createUser!: (user: UserInfo) => Promise<UserInfo>;
 
   valid = false;
   emailRules = [
@@ -149,24 +147,10 @@ export default class firstStep extends Vue {
       "Phone must be valid",
   ];
 
-  @Watch("query")
-  async onQueryChange(val: string): Promise<void> {
-    if (val?.length) {
-      this.isLoading = true;
-      await this.searchUser(val);
-      this.isLoading = false;
-    }
-  }
-
-  async processUser(): Promise<void> {
-    if (this.isNew) return;
-
-    this.isNew = true;
-    this.user = { name: this.query };
-    this.users.push(this.user);
-    (this.$refs.users as HTMLElement).blur();
-    (this.$refs.email as HTMLElement).focus();
-  }
+  $refs!: {
+    users: HTMLElement;
+    email: HTMLElement;
+  };
 
   init(): void {
     this.isLoading = false;
@@ -176,8 +160,14 @@ export default class firstStep extends Vue {
     this.user = {} as UserInfo;
   }
 
-  get noUserFound(): boolean {
-    return !this.isLoading && !this.query?.length && !this.users.length;
+  async processUser(): Promise<void> {
+    if (this.isNew) return;
+
+    this.isNew = true;
+    this.user = { name: this.query };
+    this.users.push(this.user);
+    this.$refs.users.blur();
+    this.$refs.email.focus();
   }
 
   async submit(): Promise<void> {
@@ -185,6 +175,26 @@ export default class firstStep extends Vue {
 
     this.user = await this.createUser(this.user);
     this.isNew = false;
+  }
+
+  async nextStep(): Promise<void> {
+    if (!this.user) return;
+
+    await this.selectUser(this.user);
+    this.$emit("continue");
+  }
+
+  @Watch("query")
+  async onQueryChange(val: string): Promise<void> {
+    if (val?.length) {
+      this.isLoading = true;
+      await this.searchUser(val);
+      this.isLoading = false;
+    }
+  }
+
+  get noUserFound(): boolean {
+    return !this.isLoading && !this.query?.length && !this.users.length;
   }
 }
 </script>

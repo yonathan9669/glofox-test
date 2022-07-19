@@ -36,7 +36,7 @@ export default class secondStep extends Vue {
 
   selectPath(option: PathOptions): void {
     this.path = option;
-    this.$emit("input", { type: "path", value: option });
+    this.$emit("input", option);
     this.$emit("continue");
   }
 }

@@ -1,10 +1,10 @@
 export interface App {
+  users: UserInfo[];
+  user: UserInfo;
+  businesses: Business[];
   businessTypes: AppType[];
   eventTypes: AppType[];
   activityTypes: AppType[];
-  users: UserInfo[];
-  user: UserInfo;
-  businessId?: number | null;
 }
 
 export interface UserInfo {
@@ -12,6 +12,18 @@ export interface UserInfo {
   name: string;
   phone?: string;
   email?: string;
+}
+
+export interface Business {
+  id?: number;
+  name: string;
+  type: string;
+  address?: string;
+}
+
+export interface Event {
+  id?: number;
+  name: string;
 }
 
 export interface AppType {
