@@ -230,8 +230,8 @@ export default class ActivityForm extends Vue {
   }
 
   async submit(): Promise<void> {
+    if (!this.activity) return;
     const { activity, formatTime, createActivity } = this;
-    if (!activity) return;
 
     const dto = {
       ...activity,
@@ -244,15 +244,12 @@ export default class ActivityForm extends Vue {
     const res = await createActivity(dto);
     activity.id = res.id;
     this.created = true;
+
+    this.$emit("input", activity);
   }
 
   formatTime(time: string): string {
     return DateTime.fromISO(`2022-07-18T${time}`).toFormat("HH:mmZZ");
-  }
-
-  @Watch("activity", { deep: true, immediate: true })
-  onActivityChange(activity: Activity): void {
-    this.$emit("input", activity);
   }
 
   get title(): string {

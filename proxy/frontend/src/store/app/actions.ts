@@ -2,7 +2,14 @@ import { ActionTree } from "vuex";
 import axios from "axios";
 
 import { State as RootState } from "@/store/state";
-import { App, UserInfo, Event, Business, Activity } from "./interfaces";
+import {
+  App,
+  UserInfo,
+  Event,
+  Business,
+  Activity,
+  Booking,
+} from "./interfaces";
 
 import { getTypes } from "@/store/app/queries/types";
 import { findUser, insertUser } from "@/store/app/queries/user";
@@ -23,6 +30,9 @@ const actions: ActionTree<App, RootState> = {
     commit("setBusinessTypes", businessTypes);
     commit("setEventTypes", eventTypes);
     commit("setActivityTypes", activityTypes);
+  },
+  activatePath: ({ commit }, path): void => {
+    commit("setPath", path);
   },
   // ---------------------------------------------------------------------------
   // USER
@@ -165,6 +175,26 @@ const actions: ActionTree<App, RootState> = {
   selectActivity: ({ commit }, activity): void => {
     if (!activity?.id) throw new Error("Activity must be in the DB");
     commit("setActivity", activity);
+  },
+  // ---------------------------------------------------------------------------
+  // BOOKING
+  // ---------------------------------------------------------------------------
+  createBooking: async (
+    { state: { user, activity } },
+    bookings
+  ): Promise<Booking[]> => {
+    bookings.member = user.id;
+    bookings.activity = activity.id;
+
+    const {
+      data: { confirmations },
+    } = await axios.post(
+      `/bookings`,
+      { bookings: { ...bookings } },
+      { baseURL: VUE_APP_API_URL }
+    );
+
+    return confirmations.bookings;
   },
 };
 

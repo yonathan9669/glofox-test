@@ -15,7 +15,7 @@
               Select intention
             </v-stepper-step>
 
-            <second-step v-model="path" @continue="nextStep" />
+            <second-step @continue="nextStep" />
 
             <v-stepper-step :complete="step > 3" step="3">
               Make your pick
@@ -45,6 +45,7 @@ import FirstStep from "@/components/steps/FirstStep.vue";
 import SecondStep from "@/components/steps/SecondStep.vue";
 import ThirdStep from "@/components/steps/ThirdStep.vue";
 import FourthStep from "@/components/steps/FourthStep.vue";
+import { mapGetters } from "vuex";
 
 @Component({
   components: {
@@ -53,10 +54,13 @@ import FourthStep from "@/components/steps/FourthStep.vue";
     ThirdStep,
     FourthStep,
   },
+  computed: {
+    ...mapGetters("app", ["path"]),
+  },
 })
 export default class App extends Vue {
   step = 1;
-  path: PathOptions | null = null;
+  path!: PathOptions;
 
   nextStep(): void {
     this.step = this.step === 4 ? 1 : this.step + 1;

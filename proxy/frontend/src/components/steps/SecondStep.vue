@@ -27,16 +27,20 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { PathOptions } from "@/store/app";
+import { mapActions } from "vuex";
 
-@Component({})
+@Component({
+  methods: {
+    ...mapActions("app", ["activatePath"]),
+  },
+})
 export default class SecondStep extends Vue {
-  path: PathOptions | null = null;
+  activatePath!: (path: string) => void;
 
   options = { creation: PathOptions.CREATION, booking: PathOptions.BOOKING };
 
   selectPath(option: PathOptions): void {
-    this.path = option;
-    this.$emit("input", option);
+    this.activatePath(option);
     this.$emit("continue");
   }
 }

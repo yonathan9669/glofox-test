@@ -13,6 +13,7 @@ export function initState(): App {
   return {
     users: [],
     user: {} as UserInfo,
+    path: null,
     businesses: [],
     businessTypes: [],
     event: {} as Event,
@@ -28,6 +29,9 @@ export const mutations: MutationTree<App> = {
   },
   setUser: (state, user) => {
     state.user = user;
+  },
+  setPath: (state, path) => {
+    state.path = path;
   },
   setBusinesses: (state, businesses) => {
     state.businesses = businesses;
@@ -55,6 +59,9 @@ export const getters: GetterTree<App, RootState> = {
   },
   user: ({ user }): UserInfo => {
     return user;
+  },
+  path: ({ path }): string | null => {
+    return path;
   },
   businesses: ({ businesses }): Business[] => {
     return businesses;

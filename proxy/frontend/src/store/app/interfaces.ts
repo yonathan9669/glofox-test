@@ -1,6 +1,7 @@
 export interface App {
   users: UserInfo[];
   user: UserInfo;
+  path: string | null;
   businesses: Business[];
   businessTypes: AppType[];
   eventTypes: AppType[];
@@ -42,6 +43,20 @@ export interface Activity {
   startAt: string;
   endAt: string;
   event?: Event;
+}
+
+export interface Booking {
+  id?: number;
+  member: UserInfo;
+  activity: Activity;
+  date: string;
+}
+
+export interface BookingDto {
+  member: number;
+  activity: number;
+  dates?: string[];
+  dateRange?: string;
 }
 
 export interface AppType {
