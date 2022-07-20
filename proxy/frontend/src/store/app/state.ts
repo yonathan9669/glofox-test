@@ -57,4 +57,7 @@ export const getters: GetterTree<App, RootState> = {
   event: ({ event }): Event => {
     return event;
   },
+  activityTypes: ({ activityTypes }): AppType[] => {
+    return activityTypes;
+  },
 };

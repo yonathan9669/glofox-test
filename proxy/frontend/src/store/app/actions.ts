@@ -1,4 +1,5 @@
 import { ActionTree } from "vuex";
+import axios from "axios";
 
 import { State as RootState } from "@/store/state";
 import { App, UserInfo, Event, Business } from "./interfaces";
@@ -7,6 +8,8 @@ import { getTypes } from "@/store/app/queries/types";
 import { findUser, insertUser } from "@/store/app/queries/user";
 import { myBusinesses, insertBusiness } from "@/store/app/queries/business";
 import { findEvents, insertEvent } from "@/store/app/queries/event";
+
+const { VUE_APP_API_URL } = process.env;
 
 const actions: ActionTree<App, RootState> = {
   loadTypes: async ({ commit, rootState: { apolloClient } }): Promise<void> => {
@@ -120,7 +123,7 @@ const actions: ActionTree<App, RootState> = {
       data: { event },
     } = await apolloClient.mutate({
       mutation: insertEvent,
-      variables: eventData,
+      variables: { ...eventData, business: eventData.business.id },
     });
 
     return event;
@@ -128,6 +131,22 @@ const actions: ActionTree<App, RootState> = {
   selectEvent: ({ commit }, event): void => {
     if (!event?.id) throw new Error("Event must be in the DB");
     commit("setEvent", event);
+  },
+  // ---------------------------------------------------------------------------
+  // ACTIVITY
+  // ---------------------------------------------------------------------------
+  createActivity: async ({ state: { event } }, activityData) => {
+    activityData.event = event.id;
+
+    const {
+      data: { activity },
+    } = await axios.post(
+      `/classes`,
+      { activity: { ...activityData } },
+      { baseURL: VUE_APP_API_URL }
+    );
+
+    return activity;
   },
 };
 

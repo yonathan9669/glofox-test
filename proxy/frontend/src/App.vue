@@ -29,7 +29,7 @@
               <small>Fill data in</small>
             </v-stepper-step>
 
-            <v-stepper-content step="4"></v-stepper-content>
+            <fourth-step :path="path"></fourth-step>
           </v-stepper>
         </v-row>
       </v-col>
@@ -39,23 +39,23 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { PathOptions, UserInfo } from "@/store/app";
+import { PathOptions } from "@/store/app";
 
 import FirstStep from "@/components/steps/FirstStep.vue";
 import SecondStep from "@/components/steps/SecondStep.vue";
 import ThirdStep from "@/components/steps/ThirdStep.vue";
+import FourthStep from "@/components/steps/FourthStep.vue";
 
 @Component({
   components: {
     FirstStep,
     SecondStep,
     ThirdStep,
+    FourthStep,
   },
 })
 export default class App extends Vue {
   step = 1;
-
-  selectedUser: UserInfo = { id: 0, name: "", phone: "", email: "" };
   path: PathOptions | null = null;
 
   nextStep(): void {

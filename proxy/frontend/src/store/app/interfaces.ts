@@ -27,12 +27,20 @@ export interface Event {
   name: string;
   type: string;
   description: string;
-  business?: Business | number;
+  business?: Business;
 }
 
 export interface Activity {
   id?: number;
   name: string;
+  type: string;
+  capacity: number;
+  overbooking: boolean;
+  description: string;
+  dateRange: string;
+  startAt: string;
+  endAt: string;
+  event?: Event;
 }
 
 export interface AppType {

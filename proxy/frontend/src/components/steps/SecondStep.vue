@@ -29,7 +29,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { PathOptions } from "@/store/app";
 
 @Component({})
-export default class secondStep extends Vue {
+export default class SecondStep extends Vue {
   path: PathOptions | null = null;
 
   options = { creation: PathOptions.CREATION, booking: PathOptions.BOOKING };

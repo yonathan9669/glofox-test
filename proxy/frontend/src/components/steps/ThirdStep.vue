@@ -32,7 +32,7 @@ import { mapActions } from "vuex";
   },
   computed: {},
 })
-export default class thirdStep extends Vue {
+export default class ThirdStep extends Vue {
   event: Event | null = null;
   activity: Activity | null = null;
 

@@ -123,7 +123,7 @@ import { UserInfo } from "@/store/app";
     ...mapGetters("app", ["users"]),
   },
 })
-export default class firstStep extends Vue {
+export default class FirstStep extends Vue {
   isLoading = false;
   isNew = false;
   query = "";

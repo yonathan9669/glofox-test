@@ -7,21 +7,11 @@ export const findEventActivities = gql`
       name
       type
       capacity
-      allow_overbooking
+      allowOverbooking: allow_overbooking
       description
-      date_range
-      start_at
-      end_at
-      responsible: user {
-        id
-        name
-      }
-      event {
-        name
-        business {
-          name
-        }
-      }
+      dateRange: date_range
+      startAt: start_at
+      endAt: end_at
     }
   }
 `;

@@ -180,7 +180,7 @@ export default class EventForm extends Vue {
   async submit(): Promise<void> {
     if (!this.event || !this.isNew) return;
 
-    this.event.business = this.business.id;
+    this.event.business = this.business;
     this.event = await this.createEvent(this.event);
     this.isNew = false;
     await this.fetchEvents(this.business);
@@ -195,6 +195,7 @@ export default class EventForm extends Vue {
 
   @Watch("event")
   onEventChange(event: Event): void {
+    event.business = this.business;
     this.$emit("input", event);
   }
 }
