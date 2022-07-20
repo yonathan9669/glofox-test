@@ -69,7 +69,7 @@
                       v-model="activity.startAt"
                       :rules="rules"
                       label="Start"
-                      prepend-icon="mdi-calendar"
+                      prepend-icon="mdi-clock-outline"
                       readonly
                       v-bind="attrs"
                       v-on="on"
@@ -107,7 +107,7 @@
                       v-model="activity.endAt"
                       :rules="rules"
                       label="End"
-                      prepend-icon="mdi-calendar"
+                      prepend-icon="mdi-clock-time-five"
                       readonly
                       v-bind="attrs"
                       v-on="on"
@@ -216,11 +216,11 @@ export default class ActivityForm extends Vue {
   valid = false;
   modal = { start: false, end: false, range: false };
   icons = {
-    class: "mdi-weight-lifter",
-    session: "mdi-account-group-outline",
-    therapy: "mdi-store",
-    show: "mdi-store",
-    sales: "mdi-store",
+    class: "mdi-google-classroom",
+    session: "mdi-book-edit",
+    therapy: "mdi-human-male-board",
+    show: "mdi-play-box",
+    sales: "mdi-shopping",
   };
 
   rules = [(v: string): boolean | string => !!v || "Required"];
@@ -247,7 +247,7 @@ export default class ActivityForm extends Vue {
   }
 
   formatTime(time: string): string {
-    return DateTime.fromISO(`2016-05-25T${time}`).toFormat("HH:mmZZ");
+    return DateTime.fromISO(`2022-07-18T${time}`).toFormat("HH:mmZZ");
   }
 
   @Watch("activity", { deep: true, immediate: true })

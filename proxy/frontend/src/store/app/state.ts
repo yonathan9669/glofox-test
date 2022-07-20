@@ -1,6 +1,13 @@
 import { GetterTree, MutationTree } from "vuex";
 import { State as RootState } from "@/store/state";
-import { App, AppType, Business, UserInfo, Event } from "./interfaces";
+import {
+  App,
+  AppType,
+  Business,
+  UserInfo,
+  Event,
+  Activity,
+} from "./interfaces";
 
 export function initState(): App {
   return {
@@ -11,30 +18,34 @@ export function initState(): App {
     event: {} as Event,
     eventTypes: [],
     activityTypes: [],
+    activity: {} as Activity,
   };
 }
 
 export const mutations: MutationTree<App> = {
-  setUsers: async (state, users) => {
+  setUsers: (state, users) => {
     state.users = users;
   },
-  setUser: async (state, user) => {
+  setUser: (state, user) => {
     state.user = user;
   },
-  setBusinesses: async (state, businesses) => {
+  setBusinesses: (state, businesses) => {
     state.businesses = businesses;
   },
-  setBusinessTypes: async (state, payload) => {
+  setBusinessTypes: (state, payload) => {
     state.businessTypes = payload;
   },
-  setEventTypes: async (state, payload) => {
+  setEventTypes: (state, payload) => {
     state.eventTypes = payload;
   },
-  setEvent: async (state, payload) => {
+  setEvent: (state, payload) => {
     state.event = payload;
   },
-  setActivityTypes: async (state, payload) => {
+  setActivityTypes: (state, payload) => {
     state.activityTypes = payload;
+  },
+  setActivity: (state, payload) => {
+    state.activity = payload;
   },
 };
 
@@ -59,5 +70,8 @@ export const getters: GetterTree<App, RootState> = {
   },
   activityTypes: ({ activityTypes }): AppType[] => {
     return activityTypes;
+  },
+  activity: ({ activity }): Activity => {
+    return activity;
   },
 };

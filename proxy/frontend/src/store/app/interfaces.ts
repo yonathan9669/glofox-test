@@ -6,6 +6,7 @@ export interface App {
   eventTypes: AppType[];
   event: Event;
   activityTypes: AppType[];
+  activity: Activity;
 }
 
 export interface UserInfo {

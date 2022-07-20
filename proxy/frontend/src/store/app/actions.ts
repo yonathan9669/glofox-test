@@ -2,12 +2,13 @@ import { ActionTree } from "vuex";
 import axios from "axios";
 
 import { State as RootState } from "@/store/state";
-import { App, UserInfo, Event, Business } from "./interfaces";
+import { App, UserInfo, Event, Business, Activity } from "./interfaces";
 
 import { getTypes } from "@/store/app/queries/types";
 import { findUser, insertUser } from "@/store/app/queries/user";
 import { myBusinesses, insertBusiness } from "@/store/app/queries/business";
 import { findEvents, insertEvent } from "@/store/app/queries/event";
+import { fetchActivities } from "@/store/app/queries/activity";
 
 const { VUE_APP_API_URL } = process.env;
 
@@ -147,6 +148,23 @@ const actions: ActionTree<App, RootState> = {
     );
 
     return activity;
+  },
+  fetchActivities: async ({
+    rootState: { apolloClient },
+  }): Promise<Activity[]> => {
+    if (!apolloClient) return [];
+
+    const {
+      data: { activities },
+    } = await apolloClient.query({
+      query: fetchActivities,
+    });
+
+    return activities;
+  },
+  selectActivity: ({ commit }, activity): void => {
+    if (!activity?.id) throw new Error("Activity must be in the DB");
+    commit("setActivity", activity);
   },
 };
 

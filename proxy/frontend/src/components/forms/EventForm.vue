@@ -141,10 +141,10 @@ export default class EventForm extends Vue {
   ];
 
   icons = {
-    course: "mdi-google-classroom",
+    course: "mdi-school",
     training: "mdi-google-fit",
     launch: "mdi-rocket-launch",
-    advisory: "mdi-human-male-board",
+    advisory: "mdi-account-tie",
   };
 
   mounted(): void {
