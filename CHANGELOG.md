@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/yonathan9669/glofox-test/compare/v1.3.1...v1.4.0) (2022-07-20)
+
+
+### Features
+
+* 👻 Get Started Script ([eb09e18](https://github.com/yonathan9669/glofox-test/commit/eb09e18cb083d85e045ef55a1b4913b54713d266)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **docker:** 👻 ENV ([391af17](https://github.com/yonathan9669/glofox-test/commit/391af17f8b00c2d11a027cfcef28e0b124c34e35)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **frontend:** 👻 Fourth Step | Booking ([41c5b11](https://github.com/yonathan9669/glofox-test/commit/41c5b11bc76117d2c3ff0bf846ad321f26f21659)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **frontend:** 👻 Fourth Step | Create ([606edf2](https://github.com/yonathan9669/glofox-test/commit/606edf2b266578116ad4aa03dd5f8f310117bf04)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **frontend:** 👻 Structure & Configurations ([ea9564a](https://github.com/yonathan9669/glofox-test/commit/ea9564a85bd4fd4cd4d4803381552e0a70613e88)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **frontend:** 👻 Third Step | Booking ([c000323](https://github.com/yonathan9669/glofox-test/commit/c000323bb52e85cec6cf9808016fdf98614ce999)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **frontend:** 👻 Third Step | Create ([d7966e7](https://github.com/yonathan9669/glofox-test/commit/d7966e7230f304087f9bcd1ab3db294c1852ac83)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **frontend:** 👻 Third Step | Create ([b6939e5](https://github.com/yonathan9669/glofox-test/commit/b6939e52809008324cb226ec05fcaed2db181ce5)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **gateway:** 👻 Example Seeder ([87d1f58](https://github.com/yonathan9669/glofox-test/commit/87d1f58fbd4b1f09c244d4916496d5141e0c5ad3)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+* **gateway:** 👻 Permissions ([adae2d7](https://github.com/yonathan9669/glofox-test/commit/adae2d7772525a434e7cfd57fd4ee1223c95e19a)), closes [#9](https://github.com/yonathan9669/glofox-test/issues/9)
+
 ### [1.3.1](https://github.com/yonathan9669/glofox-test/compare/v1.3.0...v1.3.1) (2022-07-17)
 
 ## [1.3.0](https://github.com/yonathan9669/glofox-test/compare/v1.2.0...v1.3.0) (2022-07-17)

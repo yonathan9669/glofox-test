@@ -6,10 +6,9 @@ This repository was created to develop, plan, and register the solution for the 
 The whole project is containerized on Docker, so in order to run it you need to have `Docker` & `docker-compose` installed.
 
 #### Steps
-- Copy the `.env.example` file as `.env` within the repository.
 - Open your console and run the following command.
 ```sh
-make build
+make from-scratch
 ```
 
 That's it, just wait until everything is setup for you and they can be accessed by:

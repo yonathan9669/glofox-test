@@ -50,3 +50,4 @@ type BookingsOutput {
   activity: Int!
   bookings: [Booking]!
 }
+

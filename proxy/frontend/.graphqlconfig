@@ -1,0 +1,15 @@
+{
+  "name": "glofox-test Schema",
+  "schemaPath": "./schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Hasura": {
+        "url": "http://localhost:8000/gw/v1/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
