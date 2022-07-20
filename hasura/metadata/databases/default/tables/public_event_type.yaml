@@ -10,3 +10,9 @@ array_relationships:
         table:
           schema: public
           name: event
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - name
+      filter: {}

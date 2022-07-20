@@ -23,3 +23,24 @@ array_relationships:
         table:
           schema: public
           name: membership
+insert_permissions:
+  - role: anonymous
+    permission:
+      check: {}
+      columns:
+        - address
+        - name
+        - owner_id
+        - type
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - id
+        - owner_id
+        - address
+        - name
+        - type
+        - created_at
+        - updated_at
+      filter: {}

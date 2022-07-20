@@ -16,3 +16,24 @@ array_relationships:
         table:
           schema: public
           name: activity
+insert_permissions:
+  - role: anonymous
+    permission:
+      check: {}
+      columns:
+        - business_id
+        - description
+        - name
+        - type
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - business_id
+        - id
+        - description
+        - name
+        - type
+        - created_at
+        - updated_at
+      filter: {}
