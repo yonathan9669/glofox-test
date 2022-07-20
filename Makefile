@@ -21,3 +21,7 @@ release:
 .PHONY: seed-example
 seed-example:
 	npm run hasura:seed
+
+.PHONY: from-scratch
+from-scratch:
+	./get_started.sh
