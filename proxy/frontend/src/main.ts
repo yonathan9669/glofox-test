@@ -1,7 +1,20 @@
-import { createApp } from "vue";
+import Vue from "vue";
 import App from "./App.vue";
+
 import "./registerServiceWorker";
-import router from "./router";
+import vuetify from "./plugins/vuetify";
+import { createProvider, initApolloClient } from "./plugins/apollo";
+
 import store from "./store";
 
-createApp(App).use(store).use(router).mount("#app");
+Vue.config.productionTip = false;
+const apolloProvider = createProvider();
+
+initApolloClient(store, apolloProvider);
+
+new Vue({
+  store,
+  vuetify,
+  apolloProvider,
+  render: (h) => h(App),
+}).$mount("#app");

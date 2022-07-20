@@ -30,3 +30,22 @@ array_relationships:
         table:
           schema: public
           name: membership
+insert_permissions:
+  - role: anonymous
+    permission:
+      check: {}
+      columns:
+        - email
+        - name
+        - phone
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - id
+        - email
+        - name
+        - phone
+        - created_at
+        - updated_at
+      filter: {}

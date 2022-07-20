@@ -10,3 +10,9 @@ array_relationships:
         table:
           schema: public
           name: business
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - name
+      filter: {}

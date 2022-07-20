@@ -19,3 +19,21 @@ array_relationships:
         table:
           schema: public
           name: booking
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - allow_overbooking
+        - date_range
+        - capacity
+        - event_id
+        - id
+        - responsible_id
+        - description
+        - name
+        - type
+        - created_at
+        - updated_at
+        - end_at
+        - start_at
+      filter: {}

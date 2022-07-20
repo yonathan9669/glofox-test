@@ -60,7 +60,7 @@ services:
     build: proxy
     restart: always
     ports:
-      - 8000:80
+      - ${NGINX_PORT}:80
     depends_on:
       - gateway
     networks:
